@@ -1,17 +1,13 @@
 #include<sourcemod>
 #include<cstrike>
-#define PLUGIN_VERSION "1.2.8"
-//#define DEBUG
-//#ifdef DEBUG
-//    #include "net/fiveSeven/sourcemod/csgo/debug/autoloader.sp"
-//#endif
+#define PLUGIN_VERSION "0.0.1"
 public Plugin:myinfo =
 {
     name = "lo3loader for CS:GO",
-    author = "Thiry",
+    author = "morimolymoly forked from Thiry",
     description = "live on 3 restarts command(Usage:type lo3 to server console OR say !lo3)",
     version = PLUGIN_VERSION,
-    url = "http://blog.five-seven.net/"
+    url = "https://morimolymoly.com"
 };
 
 new Handle:cvar_ll_enable_saycommand;
@@ -27,6 +23,7 @@ new String:LL_MATCH_CONFIG_DEFAULT[64];
 new bool:saycommand_enable = false;
 new bool:pauseStatus       = false;
 new bool:pausable          = false;
+new String:admin_name[60];
 
 
 /**
@@ -177,7 +174,7 @@ public ExecLo3()
 
     if( !live_type )//lo3
     {
-        PrintToChatAll("[lo3loader]Live ON 3 Restarts");
+        PrintToChatAll("[%s]Live ON 3 Restarts", admin_name);
         CreateTimer(0.8, restart);
         CreateTimer(3.0, restart);
         CreateTimer(5.0, restart);
@@ -185,7 +182,7 @@ public ExecLo3()
     }
     else//lo1
     {
-        PrintToChatAll("[lo3loader] Live ON Restart");
+        PrintToChatAll("[%s] Live ON Restart", admin_name);
         ServerCommand("mp_restartgame 1");
         CreateTimer(2.0, live);
     }
@@ -198,9 +195,9 @@ public Action:live(Handle:timer)
 {
     for(new i = 0; i <= 6; i++)
     {
-        PrintToChatAll("[lo3loader] -=!Live!=-");
+        PrintToChatAll("[%s] -=!Live!=-", admin_name);
     }
-    PrintToChatAll("[lo3loader] Match is now LIVE! \04[G]\01ood \04[L]\01uck \04[H]\01ave \04[F]\01un!");
+    PrintToChatAll("[%s] Match is now LIVE! \04[G]\01ood \04[L]\01uck \04[H]\01ave \04[F]\01un!", admin_name);
 }
 /**
  * lo3のリスタート処理
@@ -209,7 +206,7 @@ public Action:live(Handle:timer)
 public Action:restart(Handle:timer)
 {
     static cnt = 1;
-    PrintToChatAll("[lo3loader] Restart %d", cnt++);
+    PrintToChatAll("[%s] Restart %d", admin_name, cnt++);
     ServerCommand("mp_restartgame 1");
 
     if(cnt >= 4)
@@ -243,6 +240,10 @@ public Action:ResumeMatch(Handle:timer)
  */
 public Action:Command_lo3(args)
 {
+    if (!GetCmdArg(1, admin_name, 60))
+	{
+        admin_name = "lo3loader";
+	}
     ExecLo3();
 }
 /**
