@@ -22,7 +22,7 @@ before_script:
     - SMPACKAGE=`lynx -dump "$SMURL" | egrep -o "$SMPATTERN" | tail -1`
     - wget ${SMPACKAGE}
     - echo ${basename ${SMPACKAGE}}
-    - tar -xzf ${basename ${SMPACKAGE}}
+    - tar -xzf $(basename ${SMPACKAGE})
     - cp lo3loader.sp addons/sourcemod/scripting/
     - cd addons/sourcemod/scripting/
     - chmod +x spcomp
