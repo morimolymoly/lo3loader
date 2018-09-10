@@ -20,7 +20,7 @@ before_script:
     - SMPATTERN="http:.*sourcemod-.*-linux.*"
     - SMURL="http://www.sourcemod.net/smdrop/$SMVERSION/"
     - SMPACKAGE=`lynx -dump "$SMURL" | egrep -o "$SMPATTERN" | tail -1`
-    - wget $SMPACKAGE
+    - wget ${SMPACKAGE}
     - tar -xzf $(basename "$SMPACKAGE")
     - cp lo3loader.sp addons/sourcemod/scripting/
     - cd addons/sourcemod/scripting/
