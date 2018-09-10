@@ -349,6 +349,7 @@ public Action:Command_Say(client, args)
 
         if( (StrEqual(text, "!lo3", true)) || (StrEqual(text, "!live", true)) )
         {
+            admin_name = "lo3loader";
             SetConVarString(cvar_ll_match_config, LL_MATCH_CONFIG_DEFAULT);//ll_match_configで指定されているコンフィグを設定
             pausable = true;
             ExecLo3();
